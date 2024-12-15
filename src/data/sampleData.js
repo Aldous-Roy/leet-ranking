@@ -6,7 +6,11 @@ export const usernames = [
     "YUVASHREE_R_H",
     "L4mYntjZlm", // abinaya sri
     "saicharanuvi",
-    "kirithika_srini04"
+    "kirithika_srini04",
+    "Jones--Martin",
+    "Krishnachoudhary005",
+    "khushimilimishra",
+    "1XjFPCdTLU"
   ];
   
   export const userNamesMap = {
@@ -16,5 +20,10 @@ export const usernames = [
     "YUVASHREE_R_H": "Yuvashree R H",
     "L4mYntjZlm": "Abinaya Sri",
     "saicharanuvi": "Saicharan U",
-    "kirithika_srini04": "Kirithika S"
+    "kirithika_srini04": "Kirithika S",
+    "Jones--Martin":"Jones Martin",
+    "Krishnachoudhary005": "Krishnachoudhary",
+    "khushimilimishra": "Khushi Milli Misra",
+    "1XjFPCdTLU": "Vigneeshwar M"
+
   };
