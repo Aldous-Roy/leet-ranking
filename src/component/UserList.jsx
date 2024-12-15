@@ -1,16 +1,13 @@
-// src/components/UserList.js
 import React, { useState } from "react";
 
 const UserList = ({ users }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Filter users based on the search term (case insensitive)
   const filteredUsers = users.filter((user) =>
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.username.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Sort users by rank in ascending order (if rank is a number)
   const sortedUsers = filteredUsers.sort((a, b) => a.rank - b.rank);
 
   if (sortedUsers.length === 0) {
@@ -19,7 +16,6 @@ const UserList = ({ users }) => {
 
   return (
     <div className="overflow-x-auto">
-      {/* Search Bar */}
       <div className="mb-4">
         <input
           type="text"

@@ -13,9 +13,7 @@ const App = () => {
     const fetchUserData = async () => {
       setError("");
       try {
-        const API_BASE_URL = "https://leetcode-api-ecru.vercel.app"; // API endpoint
-
-        // Fetch data for all usernames
+        const API_BASE_URL = "https://leetcode-api-ecru.vercel.app"; 
         const promises = usernames.map((username) =>
           axios
             .get(`${API_BASE_URL}/userProfile/${username}`)
