@@ -1,47 +1,47 @@
 // src/App.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { usernames, userNamesMap } from "./data/sampleData";
 import UserList from "./component/UserList";
-import usernames from "./data/sampleData";
 import "./App.css";
 
 const App = () => {
   const [usersData, setUsersData] = useState([]);
-  const [loading, setLoading] = useState(true); // Set loading state to true initially
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchUserData = async () => {
       setError("");
       try {
-        const API_BASE_URL = "https://leetcode-api-ecru.vercel.app"; // Your API endpoint
+        const API_BASE_URL = "https://leetcode-api-ecru.vercel.app"; // API endpoint
 
         // Fetch data for all usernames
         const promises = usernames.map((username) =>
-          axios.get(`${API_BASE_URL}/userProfile/${username}`)  // Correct endpoint for profile
+          axios
+            .get(`${API_BASE_URL}/userProfile/${username}`)
             .then((res) => {
-              console.log(`Data for ${username}:`, res.data);  // Log the data for debugging
-
               const data = res.data;
 
               return {
                 username: username,
+                name: userNamesMap[username] || username, // Use userNamesMap for name
                 rank: data.ranking || "N/A",
-                easy: data.easySolved || 0,    
-                medium: data.mediumSolved|| 0, 
-                hard: data.hardSolved || 0,    
+                easy: data.easySolved || 0,
+                medium: data.mediumSolved || 0,
+                hard: data.hardSolved || 0,
                 solved: data.totalSolved || 0,
               };
             })
             .catch((error) => {
-              console.error(`Error fetching data for ${username}:`, error);  // Log any error fetching data
               return {
                 username: username,
+                name: userNamesMap[username] || username,
                 rank: "Error",
                 easy: 0,
                 medium: 0,
                 hard: 0,
-                solved: 0, // Fallback for solved count
+                solved: 0,
               };
             })
         );
@@ -51,22 +51,23 @@ const App = () => {
       } catch (err) {
         setError(err.message || "An error occurred while fetching data.");
       } finally {
-        setLoading(false); // Set loading to false after data fetching is completed
+        setLoading(false);
       }
     };
 
-    fetchUserData(); // Fetch data when component mounts
-  }, []); // Empty dependency array to run only once when the component mounts
+    fetchUserData(); 
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">LeetCode User Data</h1>
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+        LeetCode 
+      </h1>
+      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6"> M.Tech 2027 </h2>
 
       {loading ? (
         <div className="flex justify-center items-center min-h-screen">
-          <div className="animate-spin rounded-full border-t-4 border-blue-500 w-16 h-16 border-solid">
-            <h1 className="text-blue-500 font-bold text-center">Loading ...</h1>
-          </div>
+          <div className="animate-spin rounded-full border-t-4 border-blue-500 w-16 h-16 border-solid"></div>
         </div>
       ) : error ? (
         <p className="text-center text-xl text-red-500">{error}</p>
