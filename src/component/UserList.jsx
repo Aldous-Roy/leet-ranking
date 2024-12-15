@@ -29,7 +29,7 @@ const UserList = ({ users }) => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <h1 className="text-center text-xl sm:text-2xl md:text-3xl font-bold">
+      <h1 className="text-center ">
         The Topper of the class is <span className="font-bold">{sortedUsers[0].name}</span>
       </h1>
 
