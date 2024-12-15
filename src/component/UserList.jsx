@@ -40,7 +40,7 @@ const UserList = ({ users }) => {
             <th className="px-4 py-2 border">Solved</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-center">
           {sortedUsers.map((user, index) => (
             <tr key={index} className="border-b">
               <td className="px-4 py-2">{user.name}</td>
