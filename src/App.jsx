@@ -22,6 +22,7 @@ const App = () => {
             .get(`${API_BASE_URL}/userProfile/${username}`)
             .then((res) => {
               const data = res.data;
+              console.log(data);
 
               return {
                 username: username,
