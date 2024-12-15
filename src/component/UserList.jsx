@@ -1,5 +1,6 @@
 // src/components/UserList.js
 import React, { useState } from "react";
+
 const UserList = ({ users }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -15,8 +16,9 @@ const UserList = ({ users }) => {
   if (sortedUsers.length === 0) {
     return <p>No data available.</p>;
   }
+
   return (
-    <div>
+    <div className="overflow-x-auto">
       {/* Search Bar */}
       <div className="mb-4">
         <input
@@ -27,13 +29,15 @@ const UserList = ({ users }) => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <h1 className="text-center">The Topper of the class is <span className="font-bold">{sortedUsers[0].name}</span></h1>
+      <h1 className="text-center text-xl sm:text-2xl md:text-3xl font-bold">
+        The Topper of the class is <span className="font-bold">{sortedUsers[0].name}</span>
+      </h1>
 
-      <table className="user-table w-full table-auto mt-6">
+      <table className="user-table w-full table-auto mt-6 text-sm sm:text-base">
         <thead>
           <tr className="bg-gray-200">
-            <th className="px-4 py-2 border">Username</th>
-            <th className="px-4 py-2 border">Rank</th>
+            <th className="px-4 py-2 border">Rank</th> {/* New Rank Column */}
+            <th className="px-4 py-2 border">Name</th>
             <th className="px-4 py-2 border">Easy</th>
             <th className="px-4 py-2 border">Medium</th>
             <th className="px-4 py-2 border">Hard</th>
@@ -43,8 +47,8 @@ const UserList = ({ users }) => {
         <tbody className="text-center">
           {sortedUsers.map((user, index) => (
             <tr key={index} className="border-b">
+              <td className="px-4 py-2">{index + 1}</td> {/* Display rank based on index */}
               <td className="px-4 py-2">{user.name}</td>
-              <td className="px-4 py-2">{user.rank}</td>
               <td className="px-4 py-2">{user.easy}</td>
               <td className="px-4 py-2">{user.medium}</td>
               <td className="px-4 py-2">{user.hard}</td>
@@ -53,7 +57,6 @@ const UserList = ({ users }) => {
           ))}
         </tbody>
       </table>
-     
     </div>
   );
 };
