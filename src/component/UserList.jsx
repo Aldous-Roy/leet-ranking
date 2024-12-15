@@ -34,6 +34,7 @@ const UserList = ({ users }) => {
           <tr className="bg-gray-200">
             <th className="px-4 py-2 border">Rank</th> 
             <th className="px-4 py-2 border">Name</th>
+            <th className="px-4 py-2 border">Ranking</th>
             <th className="px-4 py-2 border">Easy</th>
             <th className="px-4 py-2 border">Medium</th>
             <th className="px-4 py-2 border">Hard</th>
@@ -45,6 +46,7 @@ const UserList = ({ users }) => {
             <tr key={index} className="border-b">
               <td className="px-4 py-2">{index + 1}</td> 
               <td className="px-4 py-2">{user.name}</td>
+              <td className="px-4 py-2">{user.rank}</td>
               <td className="px-4 py-2">{user.easy}</td>
               <td className="px-4 py-2">{user.medium}</td>
               <td className="px-4 py-2">{user.hard}</td>
