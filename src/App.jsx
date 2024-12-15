@@ -27,10 +27,10 @@ const App = () => {
               return {
                 username: username,
                 rank: data.ranking || "N/A",
-                easy: data.easySolved || 0,    // Assuming 'totalEasy' exists in the response
-                medium: data.mediumSolved|| 0, // Assuming 'totalMedium' exists in the response
-                hard: data.hardSolved || 0,    // Assuming 'totalHard' exists in the response
-                solved: data.totalSolved || 0, // Add this line to fetch total solved problems
+                easy: data.easySolved || 0,    
+                medium: data.mediumSolved|| 0, 
+                hard: data.hardSolved || 0,    
+                solved: data.totalSolved || 0,
               };
             })
             .catch((error) => {
