@@ -36,7 +36,7 @@ const UserList = ({ users }) => {
       <table className="user-table w-full table-auto mt-6 text-sm sm:text-base">
         <thead>
           <tr className="bg-gray-200">
-            <th className="px-4 py-2 border">Rank</th> {/* New Rank Column */}
+            <th className="px-4 py-2 border">Rank</th> 
             <th className="px-4 py-2 border">Name</th>
             <th className="px-4 py-2 border">Easy</th>
             <th className="px-4 py-2 border">Medium</th>
@@ -47,7 +47,7 @@ const UserList = ({ users }) => {
         <tbody className="text-center">
           {sortedUsers.map((user, index) => (
             <tr key={index} className="border-b">
-              <td className="px-4 py-2">{index + 1}</td> {/* Display rank based on index */}
+              <td className="px-4 py-2">{index + 1}</td> 
               <td className="px-4 py-2">{user.name}</td>
               <td className="px-4 py-2">{user.easy}</td>
               <td className="px-4 py-2">{user.medium}</td>
