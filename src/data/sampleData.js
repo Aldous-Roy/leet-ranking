@@ -10,7 +10,9 @@ export const usernames = [
     "Jones--Martin",
     "Krishnachoudhary005",
     "khushimilimishra",
-    "1XjFPCdTLU"
+    "1XjFPCdTLU",
+    "dinesh_vx",
+    "K6bYxRZ7TH"
   ];
   
   export const userNamesMap = {
@@ -24,6 +26,8 @@ export const usernames = [
     "Jones--Martin":"Jones Martin",
     "Krishnachoudhary005": "Krishnachoudhary",
     "khushimilimishra": "Khushi Milli Misra",
-    "1XjFPCdTLU": "Vigneeshwar M"
+    "1XjFPCdTLU": "Vigneeshwar M",
+    "dinesh_vx": "Dinesh Kathik Vx",
+    "K6bYxRZ7TH":"Vickna Sai Kumar S.R"
 
   };
