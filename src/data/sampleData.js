@@ -18,7 +18,12 @@ export const usernames = [
     "manimaran_001",
     "Vigneshwar-M",
     "BzEtWgd29i", //loki CM
-    "Nikesh_1926"
+    "Nikesh_1926",
+    "Aadithya_S_J",
+    "Parthiban_1509",
+    "64u60P4fCS",
+    "gopi_ram_gr",
+    "fqlhSFKUrM"
   ];
   
   export const userNamesMap = {
@@ -41,5 +46,10 @@ export const usernames = [
     "manimaran_001":"Manimaran AK",
     "Vigneshwar-M":"Vigneshwar M",
     "BzEtWgd29i":"Lokesh C M",
-    "Nikesh_1926":"Nikesh"
+    "Nikesh_1926":"Nikesh",
+    "Aadithya_S_J":"Aadithya_S_J",
+    "Parthiban_1509":"Parthiban",
+    "64u60P4fCS":"Sabari",
+    "gopi_ram_gr":"Gopiram",
+    "fqlhSFKUrM":"Ashwin V"
   };
