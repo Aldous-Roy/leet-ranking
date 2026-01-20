@@ -48,3 +48,10 @@ export const usernames = [
     "Vigneshwar-M":"Vigneshwar M",
     "BzEtWgd29i":"Lokesh C M",
     "Nikesh_1926":"Nikesh",
+    "Aadithya_S_J":"Aadithya SJ",
+    "Parthiban_1509":"Parthiban",
+    "64u60P4fCS":"Sabari",
+    "gopi_ram_gr":"Gopiram",
+    "fqlhSFKUrM":"Ashwin V",
+    "rishivel91":"Rishi Vel1"
+  };
