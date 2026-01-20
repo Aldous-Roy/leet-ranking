@@ -12,6 +12,8 @@ const App = () => {
   const [error, setError] = useState("");
   const [activeTab, setActiveTab] = useState('dashboard');
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   useEffect(() => {
     const fetchUserData = async () => {
       setError("");
@@ -100,13 +102,33 @@ const App = () => {
           <div className="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-purple-600/20 rounded-full blur-3xl opacity-50"></div>
         </div>
 
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden backdrop-blur-sm transition-opacity"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      <Sidebar 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
+        isOpen={isSidebarOpen} 
+        onClose={() => setIsSidebarOpen(false)} 
+      />
       
       <main className="flex-1 md:ml-64 relative z-10 h-screen overflow-y-auto custom-scrollbar">
-        {/* Mobile Header Placeholder (could be a hamburger menu later) */}
+        {/* Mobile Header */}
         <div className="md:hidden p-4 flex items-center justify-between border-b border-slate-800 bg-slate-900 sticky top-0 z-20">
            <span className="font-bold text-lg">LeetRank</span>
-           <button className="text-gray-400" onClick={() => alert('Mobile menu toggle implementation required')}>Menu</button>
+           <button 
+             className="text-gray-400 hover:text-white transition-colors" 
+             onClick={() => setIsSidebarOpen(true)}
+           >
+             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+             </svg>
+           </button>
         </div>
 
         {renderContent()}
