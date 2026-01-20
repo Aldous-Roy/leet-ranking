@@ -1,6 +1,8 @@
 export const usernames = [
     "aldous-roy",
     "sanjuzzz28",
+    "Ramkumar321",
+    "SaiRaghav_007",
     "Aframariyam1",
     "YUVASHREE_R_H",
     "L4mYntjZlm", // abinaya sri
@@ -9,14 +11,21 @@ export const usernames = [
     "Jones--Martin",
     "Krishnachoudhary005",
     "khushimilimishra",
-    "1XjFPCdTLU",
+    "1XjFPCdTLU",//3 mins 
     "dinesh_vx",
-    "K6bYxRZ7TH"
+    "K6bYxRZ7TH",
+    "VIKNESH_SR",
+    "manimaran_001",
+    "Vigneshwar-M",
+    "BzEtWgd29i", //loki CM
+    "Nikesh_1926"
   ];
   
   export const userNamesMap = {
     "aldous-roy": "Aldous Roy",
     "sanjuzzz28": "Sanjay V",
+    "Ramkumar321":"Ramkumar",
+    "SaiRaghav_007":"Sai Raghav",
     "Aframariyam1": "Afra Mariyam",
     "YUVASHREE_R_H": "Yuvashree R H",
     "L4mYntjZlm": "Abinaya Sri",
@@ -25,8 +34,12 @@ export const usernames = [
     "Jones--Martin":"Jones Martin",
     "Krishnachoudhary005": "Krishnachoudhary",
     "khushimilimishra": "Khushi Milli Misra",
-    "1XjFPCdTLU": "Vigneeshwar M",
-    "dinesh_vx": "Dinesh Kathik Vx",
-    "K6bYxRZ7TH":"Vickna Sai Kumar S.R"
-
+    "1XjFPCdTLU": "Vigneeshwaran R",
+    "dinesh_vx": "DineshKarthik K",
+    "K6bYxRZ7TH":"Vickna Sai Kumar S.R",
+    "VIKNESH_SR": "Vignesh SR",
+    "manimaran_001":"Manimaran AK",
+    "Vigneshwar-M":"Vigneshwar M",
+    "BzEtWgd29i":"Lokesh C M",
+    "Nikesh_1926":"Nikesh"
   };
