@@ -2,6 +2,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Trophy, GraduationCap, X, MessageCircle } from 'lucide-react';
+import DailyProblem from './DailyProblem';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
@@ -76,6 +77,9 @@ const Sidebar = ({ isOpen, onClose }) => {
             );
           })}
         </nav>
+
+        {/* Daily Problem */}
+        <DailyProblem />
 
         {/* Bottom Actions */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-800 bg-slate-900">

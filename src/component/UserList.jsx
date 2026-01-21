@@ -81,7 +81,7 @@ const UserList = ({ users }) => {
 
       <div className="p-6">
         {/* Top Performer Highlight (only if no search or top result matches) */}
-        {!searchTerm && sortedUsers.length > 0 && <TopPerformer user={sortedUsers[0]} />}
+        {/* {!searchTerm && sortedUsers.length > 0 && <TopPerformer user={sortedUsers[0]} />} */}
 
         {sortedUsers.length === 0 ? (
           <div className="text-center py-12">
@@ -90,7 +90,7 @@ const UserList = ({ users }) => {
         ) : (
           <>
             {/* Desktop Table View */}
-            <div className="hidden md:block overflow-x-auto rounded-lg border border-slate-700/50 max-h-[calc(100vh-250px)] overflow-y-auto custom-scrollbar">
+            <div className="hidden md:block overflow-x-auto rounded-lg border border-slate-700/50 max-h-[calc(100vh-150px)] overflow-y-auto custom-scrollbar">
               <table className="min-w-full divide-y divide-slate-700/50">
                 <thead className="bg-slate-800 sticky top-0 z-10 shadow-md">
                   <tr>
