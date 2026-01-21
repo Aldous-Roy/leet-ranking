@@ -1,15 +1,20 @@
 
 import React from 'react';
-import { LayoutDashboard, Trophy, GraduationCap, X } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { LayoutDashboard, Trophy, GraduationCap, X, MessageCircle } from 'lucide-react';
 
-const Sidebar = ({ activeTab, setActiveTab, isOpen, onClose }) => {
+const Sidebar = ({ isOpen, onClose }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'leaderboard', label: 'Leaderboard', icon: Trophy },
+    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/' },
+    { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/leaderboard' },
   ];
 
   const bottomItems = [
-    { id: 'leetcoder', label: 'LeetCode', icon: GraduationCap },
+    { id: 'leetcoder', label: 'LeetCode', icon: GraduationCap, url: 'https://leetcode.com' },
+    { id: 'discord', label: 'Join Discord', icon: MessageCircle, url: 'https://discord.gg/ejCkm4RF' },
   ];
 
   return (
@@ -44,12 +49,16 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, onClose }) => {
           
           {menuItems.map((item) => {
             const Icon = item.icon;
-            const isActive = activeTab === item.id;
+            // Check if path matches exactly or if it's the root path logic
+            const isActive = item.path === '/' 
+              ? location.pathname === '/' 
+              : location.pathname.startsWith(item.path);
+            
             return (
               <button
                 key={item.id}
                 onClick={() => {
-                  setActiveTab(item.id);
+                  navigate(item.path);
                   if (onClose) onClose();
                 }}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${
@@ -77,7 +86,7 @@ const Sidebar = ({ activeTab, setActiveTab, isOpen, onClose }) => {
                 <button
                   key={item.id}
                   className="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-400 hover:bg-slate-800/50 hover:text-white transition-colors"
-                  onClick={() => item.id === 'leetcoder' && window.open('https://leetcode.com', '_blank')}
+                  onClick={() => window.open(item.url, '_blank')}
                 >
                   <Icon size={18} />
                   <span className="text-sm">{item.label}</span>

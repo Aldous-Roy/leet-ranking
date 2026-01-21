@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { usernames, userNamesMap } from "./data/sampleData";
 import UserList from "./component/UserList";
 import Sidebar from "./component/Sidebar";
 import DashboardStats from "./component/DashboardStats";
+import UserProfile from "./component/UserProfile";
 import "./App.css";
 
 const App = () => {
   const [usersData, setUsersData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState('dashboard');
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -32,6 +33,7 @@ const App = () => {
                 medium: data.mediumSolved || 0,
                 hard: data.hardSolved || 0,
                 solved: data.totalSolved || 0,
+                recentSubmissions: data.recentSubmissions || [],
               };
             })
             .catch((error) => {
@@ -43,6 +45,7 @@ const App = () => {
                 medium: 0,
                 hard: 0,
                 solved: 0,
+                recentSubmissions: [],
               };
             })
         );
@@ -59,40 +62,21 @@ const App = () => {
     fetchUserData(); 
   }, []);
 
-  const renderContent = () => {
-    if (loading) {
-      return (
-        <div className="flex flex-col justify-center items-center h-full">
-          <div className="animate-spin rounded-full border-t-4 border-b-4 border-blue-500 w-16 h-16 mb-4"></div>
-          <p className="text-gray-400 animate-pulse">Fetching latest rankings...</p>
-        </div>
-      );
-    }
+  const LoadingScreen = () => (
+    <div className="flex flex-col justify-center items-center h-full">
+      <div className="animate-spin rounded-full border-t-4 border-b-4 border-blue-500 w-16 h-16 mb-4"></div>
+      <p className="text-gray-400 animate-pulse">Fetching latest rankings...</p>
+    </div>
+  );
 
-    if (error) {
-       return (
-        <div className="flex justify-center items-center h-full">
-           <div className="bg-red-500/10 border border-red-500/50 rounded-xl p-6 text-center max-w-lg mx-auto backdrop-blur-sm">
-            <p className="text-xl text-red-400 font-semibold mb-2">Oops!</p>
-            <p className="text-gray-300">{error}</p>
-          </div>
-        </div>
-       )
-    }
-
-    switch (activeTab) {
-      case 'dashboard':
-        return <DashboardStats users={usersData} />;
-      case 'leaderboard':
-        return (
-          <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden m-6">
-             <UserList users={usersData} />
-          </div>
-        );
-      default:
-        return <DashboardStats users={usersData} />;
-    }
-  };
+  const ErrorScreen = ({ message }) => (
+    <div className="flex justify-center items-center h-full">
+       <div className="bg-red-500/10 border border-red-500/50 rounded-xl p-6 text-center max-w-lg mx-auto backdrop-blur-sm">
+        <p className="text-xl text-red-400 font-semibold mb-2">Oops!</p>
+        <p className="text-gray-300">{message}</p>
+      </div>
+    </div>
+  );
 
   return (
     <div className="flex bg-[#0f172a] min-h-screen text-white font-sans overflow-hidden">
@@ -110,9 +94,12 @@ const App = () => {
         />
       )}
 
+      {/* Only show Sidebar if NOT on a user profile page (optional, user preference, but usually sidebar is good everywhere. 
+          However, for Full Page Profile, maybe we want it hidden? 
+          The design in UserProfile had a back button. Let's keep sidebar for main views.
+          Refined: Keep sidebar always. Profile page will overlay or be in main area. 
+      */}
       <Sidebar 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
         isOpen={isSidebarOpen} 
         onClose={() => setIsSidebarOpen(false)} 
       />
@@ -131,7 +118,23 @@ const App = () => {
            </button>
         </div>
 
-        {renderContent()}
+        {loading ? (
+           <LoadingScreen /> 
+        ) : error ? (
+           <ErrorScreen message={error} />
+        ) : (
+          <Routes>
+            <Route path="/" element={<DashboardStats users={usersData} />} />
+            <Route path="/leaderboard" element={
+              <div className="bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl overflow-hidden m-6">
+                 <UserList users={usersData} />
+              </div>
+            } />
+            <Route path="/user/:username" element={<UserProfile />} />
+            {/* Fallback */}
+            <Route path="*" element={<DashboardStats users={usersData} />} />
+          </Routes>
+        )}
       </main>
     </div>
   );

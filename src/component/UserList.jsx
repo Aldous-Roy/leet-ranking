@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const getRankBadge = (rank) => {
   if (rank === 1) return <span className="text-2xl">🥇</span>;
@@ -9,6 +10,7 @@ const getRankBadge = (rank) => {
 
 const UserList = ({ users }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   const filteredUsers = users.filter(
     (user) =>
@@ -23,9 +25,19 @@ const UserList = ({ users }) => {
     return rankA - rankB;
   });
 
+  const handleUserClick = (username) => {
+    navigate(`/user/${username}`);
+  };
+
   const TopPerformer = ({ user }) => (
-    <div className="mb-8 p-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-2xl shadow-lg transform hover:scale-[1.02] transition-all duration-300">
+    <div 
+      className="mb-8 p-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-2xl shadow-lg transform hover:scale-[1.02] transition-all duration-300 relative group cursor-pointer" 
+      onClick={() => handleUserClick(user.username)}
+    >
       <div className="bg-slate-900 rounded-xl p-6 text-center">
+        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+           <span className="text-xs bg-white/10 text-white px-2 py-1 rounded-full">View Profile</span>
+        </div>
         <p className="text-gray-400 uppercase tracking-widest text-xs font-bold mb-2">Current Leader</p>
         <h3 className="text-3xl font-extrabold text-white mb-1">{user.name}</h3>
         <p className="text-blue-400 font-mono text-sm">@{user.username}</p>
@@ -89,11 +101,16 @@ const UserList = ({ users }) => {
                     <th scope="col" className="px-6 py-4 text-center text-xs font-medium text-green-400 uppercase tracking-wider bg-slate-800">Easy</th>
                     <th scope="col" className="px-6 py-4 text-center text-xs font-medium text-yellow-400 uppercase tracking-wider bg-slate-800">Medium</th>
                     <th scope="col" className="px-6 py-4 text-center text-xs font-medium text-red-400 uppercase tracking-wider bg-slate-800">Hard</th>
+                    <th scope="col" className="px-6 py-4 text-center text-xs font-medium text-gray-400 uppercase tracking-wider bg-slate-800">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="bg-slate-800/30 divide-y divide-slate-700/50">
                   {sortedUsers.map((user, index) => (
-                    <tr key={user.username} className="hover:bg-slate-700/30 transition-colors duration-150">
+                    <tr 
+                      key={user.username} 
+                      className="hover:bg-slate-700/30 transition-colors duration-150 group cursor-pointer"
+                      onClick={() => handleUserClick(user.username)}
+                    >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           {getRankBadge(index + 1)}
@@ -127,6 +144,21 @@ const UserList = ({ users }) => {
                       <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-300">
                         {user.hard}
                       </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-center text-sm">
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleUserClick(user.username);
+                          }}
+                          className="text-blue-400 hover:text-blue-300 transition-colors p-2 rounded-full hover:bg-white/5 opacity-80 hover:opacity-100"
+                          title="View Profile"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                          </svg>
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -136,7 +168,11 @@ const UserList = ({ users }) => {
             {/* Mobile Card View */}
             <div className="md:hidden space-y-4">
               {sortedUsers.map((user, index) => (
-                <div key={user.username} className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                <div 
+                  key={user.username} 
+                  className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
+                  onClick={() => handleUserClick(user.username)}
+                >
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center space-x-3">
                       <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm">
@@ -161,7 +197,7 @@ const UserList = ({ users }) => {
                      </div>
                   </div>
 
-                  <div className="flex justify-between items-center text-xs font-medium text-gray-400 px-1">
+                  <div className="flex justify-between items-center text-xs font-medium text-gray-400 px-1 mb-4">
                     <div className="text-center">
                       <div className="text-green-400 mb-1">{user.easy}</div>
                       <div>Easy</div>
@@ -177,6 +213,20 @@ const UserList = ({ users }) => {
                       <div>Hard</div>
                     </div>
                   </div>
+
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleUserClick(user.username);
+                    }}
+                    className="w-full py-2 bg-slate-700/50 hover:bg-slate-700 text-blue-300 text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    View Profile
+                  </button>
                 </div>
               ))}
             </div>
