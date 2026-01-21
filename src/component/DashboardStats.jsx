@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from 'recharts';
-import { Users, CheckCircle, Target, Trophy, Flame, Zap, Code, ACTIVITY } from 'lucide-react';
+import { Users, CheckCircle, Target, Trophy, Flame, Zap, Code, Activity } from 'lucide-react';
 
 const DashboardStats = ({ users }) => {
   // --- Calculate Stats ---
