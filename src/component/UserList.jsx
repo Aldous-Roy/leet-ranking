@@ -29,32 +29,6 @@ const UserList = ({ users }) => {
     navigate(`/user/${username}`);
   };
 
-  const TopPerformer = ({ user }) => (
-    <div 
-      className="mb-8 p-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-2xl shadow-lg transform hover:scale-[1.02] transition-all duration-300 relative group cursor-pointer" 
-      onClick={() => handleUserClick(user.username)}
-    >
-      <div className="bg-slate-900 rounded-xl p-6 text-center">
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-           <span className="text-xs bg-white/10 text-white px-2 py-1 rounded-full">View Profile</span>
-        </div>
-        <p className="text-gray-400 uppercase tracking-widest text-xs font-bold mb-2">Current Leader</p>
-        <h3 className="text-3xl font-extrabold text-white mb-1">{user.name}</h3>
-        <p className="text-blue-400 font-mono text-sm">@{user.username}</p>
-        <div className="mt-4 flex justify-center space-x-6 text-sm">
-           <div className="flex flex-col">
-             <span className="font-bold text-white text-lg">{user.solved}</span>
-             <span className="text-gray-500 text-xs">Solved</span>
-           </div>
-           <div className="flex flex-col">
-             <span className="font-bold text-yellow-400 text-lg">#{user.rank}</span>
-             <span className="text-gray-500 text-xs">Global Rank</span>
-           </div>
-        </div>
-      </div>
-    </div>
-  );
-
   return (
     <div className="w-full">
       {/* Search and Top Stats Header */}
@@ -80,9 +54,6 @@ const UserList = ({ users }) => {
       </div>
 
       <div className="p-6">
-        {/* Top Performer Highlight (only if no search or top result matches) */}
-        {/* {!searchTerm && sortedUsers.length > 0 && <TopPerformer user={sortedUsers[0]} />} */}
-
         {sortedUsers.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-400 text-lg">No students found matching your search.</p>
@@ -128,7 +99,7 @@ const UserList = ({ users }) => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-300 font-mono">
-                        {user.rank.toLocaleString()}
+                        {(typeof user.rank === 'number') ? user.rank.toLocaleString() : 'N/A'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-center">
                         <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-900/50 text-blue-200 border border-blue-700/50">
@@ -189,7 +160,7 @@ const UserList = ({ users }) => {
                   <div className="grid grid-cols-2 gap-4 text-sm mb-4">
                      <div className="bg-slate-900/50 p-2 rounded-lg text-center">
                         <p className="text-gray-500 text-xs uppercase mb-1">Global Rank</p>
-                        <p className="text-white font-mono">{user.rank.toLocaleString()}</p>
+                        <p className="text-white font-mono">{(typeof user.rank === 'number') ? user.rank.toLocaleString() : 'N/A'}</p>
                      </div>
                      <div className="bg-slate-900/50 p-2 rounded-lg text-center">
                         <p className="text-gray-500 text-xs uppercase mb-1">Total Solved</p>
