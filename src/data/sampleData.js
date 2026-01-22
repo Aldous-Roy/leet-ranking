@@ -48,7 +48,11 @@ export const usernames = [
     "Lavanya_251104",
     "wIHnUCShlh", // yuvan
     "sivanesan0809", // sivaneshan
-    "GrJv2CdD5P" //Raj kumar
+    "GrJv2CdD5P", //Raj kumar
+    "Tharani_15",
+    "Vetriselvi_03",
+    "dw4AvrXJgz",//akshaya
+    "2rzN2L2nR2",//siva shathi
   ];
   
   export const userNamesMap = {
@@ -100,6 +104,10 @@ export const usernames = [
     "VS22":"Janani",
     "Lavanya_251104":"Lavanya",
     "wIHnUCShlh":"Yuvan Sarathy",
-    "sivanesan0809":"Sivaneshan",
-    "GrJv2CdD5P":"Raj Kumar"
+    "sivanesan0809":"Sivanesan",
+    "GrJv2CdD5P":"Raj Kumar",
+    "Tharani_15":"Tharani",
+    "Vetriselvi_03":"Vetriselvi",
+    "dw4AvrXJgz":"Akshaya",
+    "2rzN2L2nR2":"Siva Shathi",
   };
