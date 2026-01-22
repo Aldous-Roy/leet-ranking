@@ -35,6 +35,19 @@ export const usernames = [
     "iBz8r2bans", //selva vignesh 
     "divya__ds", //divya
     "khushimilimishra", //khushi
+    "SANDHIYA555",
+    "devadarshancse",
+    "geetharashni",
+    "sec22cj016",
+    "Srinivasan-sv",
+    "Bhavya_C_23",
+    "Kdk1106",
+    "SARAN0209",
+    "Rakesh_sec22cj013",
+    "VS22",
+    "Lavanya_251104",
+    "wIHnUCShlh", // yuvan
+    "sivanesan0809" // sivaneshan
   ];
   
   export const userNamesMap = {
@@ -73,5 +86,18 @@ export const usernames = [
     "Hasu_mathi":"Hasu Mathi",
     "iBz8r2bans":"Selva Vignesh",
     "divya__ds":"Divya Sri Manimaran",
-    "khushimilimishra":"Khushi Milli Misra"
+    "khushimilimishra":"Khushi Milli Misra",
+    "SANDHIYA555":"Sandhiya",
+    "devadarshancse":"Devadarshan",
+    "geetharashni":"Geetha Rashni",
+    "sec22cj016":"Mridhula",
+    "Srinivasan-sv":"Srinivasan",
+    "Bhavya_C_23":"Bhavya C",
+    "Kdk1106":"Deva Krishnan",
+    "SARAN0209":"Saranya",
+    "Rakesh_sec22cj013":"Rakesh",
+    "VS22":"Janani",
+    "Lavanya_251104":"Lavanya",
+    "wIHnUCShlh":"Yuvan Sarathy",
+    "sivanesan0809":"Sivaneshan"
   };
