@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, AreaChart, Area } from 'recharts';
-import { Users, CheckCircle, Target, Trophy, Flame, Zap, Code, Calendar, Award, ArrowUpRight } from 'lucide-react';
+import { Users, CheckCircle, Target, Trophy, Flame, Zap, Code, Calendar, Award, ArrowUpRight, Download } from 'lucide-react';
+import { exportToExcel } from '../utils/excelGenerator';
 
 const DashboardStats = ({ users }) => {
   // --- Calculate Stats ---
@@ -155,6 +156,13 @@ const DashboardStats = ({ users }) => {
           <p className="text-slate-400 mt-1">Real-time collaboration and competitive analysis.</p>
         </div>
         <div className="flex gap-2">
+             <button 
+                onClick={() => exportToExcel(users)}
+                className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-medium border border-blue-500/20 hover:bg-blue-500/20 transition-colors flex items-center gap-1 cursor-pointer"
+             >
+                <Download size={14} />
+                Export Report
+             </button>
              <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-medium border border-blue-500/20">M.Tech 2027</span>
              <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">Live Updated</span>
         </div>
