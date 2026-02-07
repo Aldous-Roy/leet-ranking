@@ -50,35 +50,37 @@ const AITutor = () => {
     <div className="p-6 md:p-8 space-y-8 max-w-[1600px] mx-auto pb-24">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div className="flex items-center gap-4">
-          <div className="p-3 rounded-2xl bg-indigo-500/10 text-indigo-400">
+        <div className="flex items-center gap-4 w-full md:w-auto">
+          <div className="p-3 rounded-2xl bg-indigo-500/10 text-indigo-400 shrink-0">
             <Bot size={32} />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-white">AI DSA Tutor</h1>
-            <p className="text-slate-400">Personalized roadmap and analysis based on your LeetCode performance.</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-white">AI DSA Tutor</h1>
+            <p className="text-slate-400 text-sm md:text-base">Personalized roadmap and analysis based on your LeetCode performance.</p>
           </div>
         </div>
 
         {/* User Selection */}
-        <div className="flex items-center gap-3 bg-slate-800/50 p-2 rounded-xl border border-slate-700/50 w-full md:w-auto">
-            <User className="text-slate-400 ml-2" size={20} />
-            <select 
-                value={selectedUser} 
-                onChange={(e) => setSelectedUser(e.target.value)}
-                className="bg-transparent text-white border-none outline-none py-1 px-2 min-w-[200px]"
-                disabled={loading}
-            >
-                {usernames.map(u => (
-                    <option key={u} value={u} className="bg-slate-900 text-slate-200">
-                        {userNamesMap[u] || u}
-                    </option>
-                ))}
-            </select>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 bg-slate-800/50 p-2 rounded-xl border border-slate-700/50 w-full md:w-auto">
+            <div className="flex items-center flex-1 min-w-0">
+                <User className="text-slate-400 ml-2 shrink-0" size={20} />
+                <select 
+                    value={selectedUser} 
+                    onChange={(e) => setSelectedUser(e.target.value)}
+                    className="bg-transparent text-white border-none outline-none py-2 px-2 w-full text-ellipsis"
+                    disabled={loading}
+                >
+                    {usernames.map(u => (
+                        <option key={u} value={u} className="bg-slate-900 text-slate-200">
+                            {userNamesMap[u] || u}
+                        </option>
+                    ))}
+                </select>
+            </div>
             <button 
                 onClick={generateAnalysis}
                 disabled={loading}
-                className={`px-4 py-2 rounded-lg font-medium transition-all flex items-center gap-2 ${
+                className={`px-4 py-2 rounded-lg font-medium transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
                     loading 
                     ? 'bg-slate-700 text-slate-400 cursor-not-allowed' 
                     : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-500/20'
@@ -134,33 +136,33 @@ const AITutor = () => {
       {data && !loading && (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="bg-slate-800/40 border border-slate-700/50 p-4 rounded-xl flex items-center gap-4">
-                    <div className="p-3 rounded-lg bg-green-400/10 text-green-400"><CheckCircle2 size={24} /></div>
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                <div className="bg-slate-800/40 border border-slate-700/50 p-3 md:p-4 rounded-xl flex flex-col sm:flex-row items-center sm:items-start gap-2 md:gap-4 text-center sm:text-left">
+                    <div className="p-2 md:p-3 rounded-lg bg-green-400/10 text-green-400 shrink-0"><CheckCircle2 size={24} /></div>
                     <div>
-                        <p className="text-slate-400 text-sm">Total Solved</p>
-                        <p className="text-2xl font-bold text-white">{data.totalSolved}</p>
+                        <p className="text-slate-400 text-xs md:text-sm">Total Solved</p>
+                        <p className="text-xl md:text-2xl font-bold text-white">{data.totalSolved}</p>
                     </div>
                 </div>
-                <div className="bg-slate-800/40 border border-slate-700/50 p-4 rounded-xl flex items-center gap-4">
-                    <div className="p-3 rounded-lg bg-yellow-400/10 text-yellow-400"><Trophy size={24} /></div>
+                <div className="bg-slate-800/40 border border-slate-700/50 p-3 md:p-4 rounded-xl flex flex-col sm:flex-row items-center sm:items-start gap-2 md:gap-4 text-center sm:text-left">
+                    <div className="p-2 md:p-3 rounded-lg bg-yellow-400/10 text-yellow-400 shrink-0"><Trophy size={24} /></div>
                     <div>
-                        <p className="text-slate-400 text-sm">Global Ranking</p>
-                        <p className="text-2xl font-bold text-white">{activeRanking(data.ranking)}</p>
+                        <p className="text-slate-400 text-xs md:text-sm">Global Ranking</p>
+                        <p className="text-xl md:text-2xl font-bold text-white">{activeRanking(data.ranking)}</p>
                     </div>
                 </div>
-                <div className="bg-slate-800/40 border border-slate-700/50 p-4 rounded-xl flex items-center gap-4">
-                    <div className="p-3 rounded-lg bg-purple-400/10 text-purple-400"><Target size={24} /></div>
+                <div className="bg-slate-800/40 border border-slate-700/50 p-3 md:p-4 rounded-xl flex flex-col sm:flex-row items-center sm:items-start gap-2 md:gap-4 text-center sm:text-left">
+                    <div className="p-2 md:p-3 rounded-lg bg-purple-400/10 text-purple-400 shrink-0"><Target size={24} /></div>
                     <div>
-                        <p className="text-slate-400 text-sm">Contribution</p>
-                        <p className="text-2xl font-bold text-white">{data.contributionPoint}</p>
+                        <p className="text-slate-400 text-xs md:text-sm">Contribution</p>
+                        <p className="text-xl md:text-2xl font-bold text-white">{data.contributionPoint}</p>
                     </div>
                 </div>
-                <div className="bg-slate-800/40 border border-slate-700/50 p-4 rounded-xl flex items-center gap-4">
-                    <div className="p-3 rounded-lg bg-cyan-400/10 text-cyan-400"><Brain size={24} /></div>
+                <div className="bg-slate-800/40 border border-slate-700/50 p-3 md:p-4 rounded-xl flex flex-col sm:flex-row items-center sm:items-start gap-2 md:gap-4 text-center sm:text-left">
+                    <div className="p-2 md:p-3 rounded-lg bg-cyan-400/10 text-cyan-400 shrink-0"><Brain size={24} /></div>
                     <div>
-                        <p className="text-slate-400 text-sm">Easy Solved</p>
-                        <p className="text-2xl font-bold text-white">{data.easySolved}</p>
+                        <p className="text-slate-400 text-xs md:text-sm">Easy Solved</p>
+                        <p className="text-xl md:text-2xl font-bold text-white">{data.easySolved}</p>
                     </div>
                 </div>
             </div>
