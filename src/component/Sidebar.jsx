@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Trophy, GraduationCap, X, MessageCircle } from 'lucide-react';
+import { LayoutDashboard, Trophy, GraduationCap, X, MessageCircle, Brain } from 'lucide-react';
 import DailyProblem from './DailyProblem';
 
 const Sidebar = ({ isOpen, onClose }) => {
@@ -11,6 +11,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/' },
     { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/leaderboard' },
+    { id: 'ai-tutor', label: 'AI Tutor', icon: Brain, path: '/dsa-tutor' },
   ];
 
   const bottomItems = [

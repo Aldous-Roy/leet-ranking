@@ -6,6 +6,7 @@ import UserList from "./component/UserList";
 import Sidebar from "./component/Sidebar";
 import DashboardStats from "./component/DashboardStats";
 import UserProfile from "./component/UserProfile";
+import AITutor from "./component/AITutor";
 import NotFound from "./component/NotFound";
 import "./App.css";
 
@@ -132,6 +133,7 @@ const App = () => {
               </div>
             } />
             <Route path="/user/:username" element={<UserProfile />} />
+            <Route path="/dsa-tutor" element={<AITutor />} />
             {/* Fallback */}
             <Route path="*" element={<NotFound />} />
           </Routes>
