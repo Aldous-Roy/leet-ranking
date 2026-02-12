@@ -163,7 +163,7 @@ const DashboardStats = ({ users }) => {
                 <Download size={14} />
                 Export Report
              </button>
-             <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-medium border border-blue-500/20">M.Tech 2027</span>
+             <span className="px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-medium border border-blue-500/20">Talent Elevation Hub 2027</span>
              <span className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-medium border border-emerald-500/20">Live Updated</span>
         </div>
       </div>

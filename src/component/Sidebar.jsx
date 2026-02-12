@@ -34,7 +34,7 @@ const Sidebar = ({ isOpen, onClose }) => {
             </div>
             <div>
               <h1 className="text-white font-bold text-lg tracking-tight">LeetRank</h1>
-              <p className="text-slate-400 text-xs">M.Tech 2027</p>
+              <p className="text-slate-400 text-xs">Talent Elevation Hub 2027</p>
             </div>
           </div>
           <button 
