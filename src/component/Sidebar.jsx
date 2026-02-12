@@ -16,7 +16,7 @@ const Sidebar = ({ isOpen, onClose }) => {
 
   const bottomItems = [
     { id: 'leetcoder', label: 'LeetCode', icon: GraduationCap, url: 'https://leetcode.com' },
-    { id: 'discord', label: 'Join Discord', icon: MessageCircle, url: 'https://discord.gg/ejCkm4RF' },
+    // { id: 'discord', label: 'Join Discord', icon: MessageCircle, url: 'https://discord.gg/ejCkm4RF' },
   ];
 
   return (
