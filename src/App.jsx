@@ -7,6 +7,7 @@ import Sidebar from "./component/Sidebar";
 import DashboardStats from "./component/DashboardStats";
 import UserProfile from "./component/UserProfile";
 import AITutor from "./component/AITutor";
+import Tournaments from "./component/Tournaments";
 import NotFound from "./component/NotFound";
 import "./App.css";
 
@@ -134,6 +135,7 @@ const App = () => {
             } />
             <Route path="/user/:username" element={<UserProfile />} />
             <Route path="/dsa-tutor" element={<AITutor />} />
+            <Route path="/tournaments" element={<Tournaments />} />
             {/* Fallback */}
             <Route path="*" element={<NotFound />} />
           </Routes>

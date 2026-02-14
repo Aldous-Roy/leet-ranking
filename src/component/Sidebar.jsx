@@ -11,6 +11,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/' },
     { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/leaderboard' },
+    { id: 'tournaments', label: 'Tournaments', icon: Trophy, path: '/tournaments' },
     { id: 'ai-tutor', label: 'AI Tutor', icon: Brain, path: '/dsa-tutor' },
   ];
 
