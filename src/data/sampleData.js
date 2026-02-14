@@ -55,7 +55,8 @@ export const usernames = [
     "Divyadharshiny37",
     "Bhavadharani_2804",
     "Divyadarshini_",
-    "Shreya0503"
+    "Shreya0503",
+    "KoushiCodey"
   ];
   
   export const userNamesMap = {
@@ -93,7 +94,7 @@ export const usernames = [
     "Hasu_mathi":"Hasu Mathi",
     "iBz8r2bans":"Selva Vignesh",
     "divya__ds":"Divya Sri Manimaran",
-    "khushimilimishra":"Khushi Milli Misra",
+    "khushimilimishra":"Khushi Mili Mishra",
     "SANDHIYA555":"Sandhiya",
     "devadarshancse":"Devadarshan",
     "geetharashni":"Geetha Rashni",
@@ -116,5 +117,6 @@ export const usernames = [
     "Bhavadharani_2804":"Bhavadharani",
     "Divyadarshini_":"Divyadarshini",
     "Shreya0503":"Shreya",
+    "KoushiCodey":"Koushik Babu",
     
   };
