@@ -48,7 +48,7 @@ const Tournaments = () => {
     resetResults();
     
     try {
-      const response = await axios.get('http://localhost:8000/api/question/random');
+      const response = await axios.get('https://leetcode-ai-server.onrender.com/api/question/random');
       if (response.data.success) {
         const fetchedData = response.data.data;
         setProblemData(fetchedData);
