@@ -9,16 +9,16 @@ import { usernames, userNamesMap } from '../data/sampleData';
 const Tournaments = () => {
   // Templates for different languages
   const LANGUAGE_TEMPLATES = {
-    javascript: `// Write your solution here\nconsole.log("Hello World!");\n\n/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[]}\n */\nfunction solution(nums, target) {\n    \n}`,
-    python: `# Write your solution here\nprint("Hello World!")\n\nclass Solution:\n    def solution(self, nums: List[int], target: int) -> List[int]:\n        pass`,
-    cpp: `// Write your solution here\n#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    cout << "Hello World!" << endl;\n    return 0;\n}\n\nclass Solution {\npublic:\n    vector<int> solution(vector<int>& nums, int target) {\n        \n    }\n};`,
+    // javascript: `// Write your solution here\nconsole.log("Hello World!");\n\n/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[]}\n */\nfunction solution(nums, target) {\n    \n}`,
+    // python: `# Write your solution here\nprint("Hello World!")\n\nclass Solution:\n    def solution(self, nums: List[int], target: int) -> List[int]:\n        pass`,
+    // cpp: `// Write your solution here\n#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    cout << "Hello World!" << endl;\n    return 0;\n}\n\nclass Solution {\npublic:\n    vector<int> solution(vector<int>& nums, int target) {\n        \n    }\n};`,
     java: `// Write your solution here\nclass Main {\n    public static void main(String[] args) {\n        System.out.println("Hello World!");\n    }\n}\n\nclass Solution {\n    public int[] solution(int[] nums, int target) {\n        return new int[]{};\n    }\n}`
   };
 
-  const [code, setCode] = useState(LANGUAGE_TEMPLATES.javascript);
+  const [code, setCode] = useState(LANGUAGE_TEMPLATES.java);
   const [output, setOutput] = useState(null);
   const [submissionResult, setSubmissionResult] = useState(null);
-  const [language, setLanguage] = useState('javascript');
+  const [language, setLanguage] = useState('java');
   const [isRunning, setIsRunning] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -50,9 +50,17 @@ const Tournaments = () => {
     try {
       const response = await axios.get('http://localhost:8000/api/question/random');
       if (response.data.success) {
-        setProblemData(response.data.data);
-        if (response.data.data.starterCode) {
-            setCode(response.data.data.starterCode);
+        const fetchedData = response.data.data;
+        setProblemData(fetchedData);
+        // Set starter code for the current language if available
+        if (fetchedData.starterCode && fetchedData.starterCode[language]) {
+            setCode(fetchedData.starterCode[language]);
+        } else if (fetchedData.starterCode && typeof fetchedData.starterCode === 'string') {
+             // Fallback for string starterCode (legacy/simple)
+            setCode(fetchedData.starterCode);
+        } else {
+             // Fallback to template if no specific starter code
+             setCode(LANGUAGE_TEMPLATES[language] || '');
         }
       } else {
         setError('Failed to fetch problem data');
@@ -71,7 +79,13 @@ const Tournaments = () => {
 
   const handleLanguageChange = (newLanguage) => {
     setLanguage(newLanguage);
-    setCode(LANGUAGE_TEMPLATES[newLanguage] || '');
+    
+    // Check if we have specific starter code for this problem
+    if (problemData && problemData.starterCode && problemData.starterCode[newLanguage]) {
+        setCode(problemData.starterCode[newLanguage]);
+    } else {
+        setCode(LANGUAGE_TEMPLATES[newLanguage] || '');
+    }
   };
 
   const resetResults = () => {
@@ -317,17 +331,17 @@ const Tournaments = () => {
                         onChange={(e) => handleLanguageChange(e.target.value)}
                         className="bg-transparent border-none outline-none text-xs ml-2 text-gray-400 hover:text-white cursor-pointer"
                       >
-                        <option value="javascript">JavaScript</option>
-                        <option value="python">Python</option>
-                        <option value="cpp">C++</option>
                         <option value="java">Java</option>
+                        <option value="cpp">C++</option>
+                        {/* <option value="javascript">JavaScript</option> */}
+                        {/* <option value="python">Python</option> */}
                       </select>
                   </div>
               </div>
               <div className="flex-1 min-h-0">
                 <Editor
                     height="100%"
-                    defaultLanguage="javascript"
+                    defaultLanguage="java"
                     language={language}
                     theme="vs-dark"
                     value={code}
@@ -342,6 +356,8 @@ const Tournaments = () => {
                         automaticLayout: true,
                         padding: { top: 12 },
                         fontFamily: "'Menlo', 'Monaco', 'Courier New', monospace",
+                        renderValidationDecorations: 'off',
+                        quickSuggestions: false,
                     }}
                 />
               </div>
