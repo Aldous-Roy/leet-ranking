@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Editor from '@monaco-editor/react';
 import axios from 'axios';
-import { Play, Save, RefreshCw, Trophy, CheckCircle2, AlertCircle, Clock, Zap, Send, User, Code2, FileText, CheckSquare, ChevronDown } from 'lucide-react';
+import { Play, Save, RefreshCw, Trophy, CheckCircle2, AlertCircle, Clock, Zap, Send, User, Code2, FileText, CheckSquare, ChevronDown, Shuffle, Tag, Building2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { usernames, userNamesMap } from '../data/sampleData';
@@ -9,10 +9,10 @@ import { usernames, userNamesMap } from '../data/sampleData';
 const Tournaments = () => {
   // Templates for different languages
   const LANGUAGE_TEMPLATES = {
-    javascript: `// Write your solution here\nconsole.log("Hello World!");\n\n/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[]}\n */\nfunction twoSum(nums, target) {\n    \n}`,
-    python: `# Write your solution here\nprint("Hello World!")\n\nclass Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        pass`,
-    cpp: `// Write your solution here\n#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    cout << "Hello World!" << endl;\n    return 0;\n}\n\nclass Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        \n    }\n};`,
-    java: `// Write your solution here\nclass Main {\n    public static void main(String[] args) {\n        System.out.println("Hello World!");\n    }\n}\n\nclass Solution {\n    public int[] twoSum(int[] nums, int target) {\n        return new int[]{};\n    }\n}`
+    javascript: `// Write your solution here\nconsole.log("Hello World!");\n\n/**\n * @param {number[]} nums\n * @param {number} target\n * @return {number[]}\n */\nfunction solution(nums, target) {\n    \n}`,
+    python: `# Write your solution here\nprint("Hello World!")\n\nclass Solution:\n    def solution(self, nums: List[int], target: int) -> List[int]:\n        pass`,
+    cpp: `// Write your solution here\n#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    cout << "Hello World!" << endl;\n    return 0;\n}\n\nclass Solution {\npublic:\n    vector<int> solution(vector<int>& nums, int target) {\n        \n    }\n};`,
+    java: `// Write your solution here\nclass Main {\n    public static void main(String[] args) {\n        System.out.println("Hello World!");\n    }\n}\n\nclass Solution {\n    public int[] solution(int[] nums, int target) {\n        return new int[]{};\n    }\n}`
   };
 
   const [code, setCode] = useState(LANGUAGE_TEMPLATES.javascript);
@@ -24,6 +24,10 @@ const Tournaments = () => {
   const [error, setError] = useState(null);
   const [playerName, setPlayerName] = useState(() => localStorage.getItem('tournaments_player_name') || '');
   const [activeTab, setActiveTab] = useState('testcase'); // 'testcase' | 'result'
+  
+  // New state for random problem
+  const [problemData, setProblemData] = useState(null);
+  const [loadingProblem, setLoadingProblem] = useState(true);
 
   // Save player name to local storage whenever it changes
   React.useEffect(() => {
@@ -32,23 +36,33 @@ const Tournaments = () => {
     }
   }, [playerName]);
 
-  const PROBLEM_DESCRIPTION = `Given an array of integers \`nums\` and an integer \`target\`, return indices of the two numbers such that they add up to \`target\`.
+  // Fetch random problem on mount
+  useEffect(() => {
+    fetchRandomProblem();
+  }, []);
 
-You may assume that each input would have **exactly one solution**, and you may not use the same element twice.
-
-You can return the answer in any order.
-
-### Example 1:
-\`\`\`
-Input: nums = [2,7,11,15], target = 9
-Output: [0,1]
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
-\`\`\`
-`;
-
-  // Mock initial test case for display
-  const DEFAULT_TEST_CASE = {
-    input: 'nums = [2,7,11,15], target = 9',
+  const fetchRandomProblem = async () => {
+    setLoadingProblem(true);
+    setError(null);
+    setProblemData(null);
+    resetResults();
+    
+    try {
+      const response = await axios.get('http://localhost:8000/api/question/random');
+      if (response.data.success) {
+        setProblemData(response.data.data);
+        if (response.data.data.starterCode) {
+            setCode(response.data.data.starterCode);
+        }
+      } else {
+        setError('Failed to fetch problem data');
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Error fetching random problem. Please try again.');
+    } finally {
+      setLoadingProblem(false);
+    }
   };
 
   const handleEditorChange = (value) => {
@@ -67,13 +81,15 @@ Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
   };
 
   const handleRunCode = async () => {
+    if (!problemData) return;
+
     setIsRunning(true);
     resetResults();
     setActiveTab('result'); // Switch to result tab on run
     
     try {
       const response = await axios.post('https://leetcode-ai-server.onrender.com/api/judge/run', {
-        problem: PROBLEM_DESCRIPTION,
+        problem: problemData.description,
         code: code,
         language: language
       });
@@ -92,6 +108,8 @@ Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
   };
 
   const handleSubmitCode = async () => {
+    if (!problemData) return;
+
     if (!playerName.trim()) {
       setError('Please enter your name before submitting.');
       setActiveTab('result');
@@ -105,7 +123,7 @@ Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
     try {
       const response = await axios.post('https://leetcode-ai-server.onrender.com/api/judge/submit', {
         name: playerName,
-        problem: PROBLEM_DESCRIPTION,
+        problem: problemData.description,
         code: code,
         language: language
       });
@@ -123,6 +141,15 @@ Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
     }
   };
 
+  const getDifficultyColor = (diff) => {
+    switch (diff?.toLowerCase()) {
+        case 'easy': return 'text-green-400 bg-green-400/10 border-green-400/20';
+        case 'medium': return 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20';
+        case 'hard': return 'text-red-400 bg-red-400/10 border-red-400/20';
+        default: return 'text-slate-400 bg-slate-400/10 border-slate-400/20';
+    }
+  };
+
   return (
     <div className="h-full flex flex-col bg-[#1a1a1a]">
       {/* Top Bar - Minimal Header */}
@@ -130,7 +157,7 @@ Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
          <div className="flex items-center gap-4">
              <div className="flex items-center gap-2 text-white font-medium">
                <Trophy size={18} className="text-yellow-500" />
-               <span>Two Sum</span>
+               <span>{problemData?.title || 'Loading...'}</span>
              </div>
              <div className="h-4 w-[1px] bg-[#333]"></div>
              <div className="flex items-center gap-2">
@@ -152,8 +179,17 @@ Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
 
          <div className="flex items-center gap-2">
             <button 
+                onClick={fetchRandomProblem}
+                disabled={loadingProblem || isRunning || isSubmitting}
+                className="flex items-center gap-2 px-3 py-1.5 rounded bg-[#2a2a2a] text-gray-300 hover:bg-[#333] transition-colors text-sm border border-[#333]"
+            >
+                {loadingProblem ? <RefreshCw size={14} className="animate-spin" /> : <Shuffle size={14} />}
+                <span>Next</span>
+            </button>
+            <div className="h-4 w-[1px] bg-[#333] mx-1"></div>
+            <button 
                 onClick={handleRunCode}
-                disabled={isRunning || isSubmitting}
+                disabled={loadingProblem || isRunning || isSubmitting}
                 className="flex items-center gap-2 px-3 py-1.5 rounded bg-[#2a2a2a] text-gray-300 hover:bg-[#333] transition-colors text-sm"
             >
                 {isRunning ? <RefreshCw size={14} className="animate-spin" /> : <Play size={14} />}
@@ -161,7 +197,7 @@ Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
             </button>
             <button 
                 onClick={handleSubmitCode}
-                disabled={isRunning || isSubmitting}
+                disabled={loadingProblem || isRunning || isSubmitting}
                 className="flex items-center gap-2 px-3 py-1.5 rounded bg-green-700/80 text-green-100 hover:bg-green-600 transition-colors text-sm"
             >
                 {isSubmitting ? <RefreshCw size={14} className="animate-spin" /> : <Send size={14} />}
@@ -174,17 +210,98 @@ Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
       <div className="flex-1 flex overflow-hidden">
         {/* Left Panel - Description */}
         <div className="w-1/2 border-r border-[#2a2a2a] flex flex-col min-w-[300px]">
-           <div className="bg-[#1a1a1a] border-b border-[#2a2a2a] px-4 py-2 flex items-center gap-2 text-sm text-white font-medium sticky top-0">
+           <div className="bg-[#1a1a1a] border-b border-[#2a2a2a] px-4 py-2 flex items-center gap-2 text-sm text-white font-medium sticky top-0 z-10">
               <FileText size={14} className="text-blue-400" />
               Description
            </div>
-           <div className="flex-1 overflow-y-auto custom-scrollbar p-6">
-              <div className="prose prose-invert prose-sm max-w-none prose-pre:bg-[#282828] prose-pre:border prose-pre:border-[#333]">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {PROBLEM_DESCRIPTION}
-                  </ReactMarkdown>
-              </div>
-           </div>
+           
+           {loadingProblem ? (
+               <div className="flex-1 flex flex-col items-center justify-center text-gray-500">
+                   <RefreshCw className="animate-spin mb-2" size={24} />
+                   <p>Fetching random problem...</p>
+               </div>
+           ) : problemData ? (
+               <div className="flex-1 overflow-y-auto custom-scrollbar p-6">
+                  {/* Title & Difficulty */}
+                  <div className="flex items-start justify-between mb-4">
+                      <h1 className="text-2xl font-bold text-white mb-2">{problemData.title}</h1>
+                  </div>
+                  
+                  <div className="flex flex-wrap items-center gap-2 mb-6">
+                      <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${getDifficultyColor(problemData.difficulty)}`}>
+                          {problemData.difficulty}
+                      </span>
+                      {problemData.tags && problemData.tags.map(tag => (
+                          <span key={tag} className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#2a2a2a] text-gray-400 text-xs border border-[#333]">
+                              <Tag size={10} />
+                              {tag}
+                          </span>
+                      ))}
+                  </div>
+
+                  {/* Description */}
+                  <div className="prose prose-invert prose-sm max-w-none prose-pre:bg-[#282828] prose-pre:border prose-pre:border-[#333] mb-8">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {problemData.description}
+                      </ReactMarkdown>
+                  </div>
+
+                  {/* Examples */}
+                  {problemData.examples && problemData.examples.map((example, index) => (
+                      <div key={index} className="mb-6">
+                          <h3 className="text-sm font-bold text-white mb-2">Example {index + 1}:</h3>
+                          <div className="bg-[#282828] p-4 rounded-lg border border-[#333] space-y-2 font-mono text-sm">
+                              <div>
+                                  <span className="text-gray-400">Input:</span> <span className="text-gray-200">{example.input}</span>
+                              </div>
+                              <div>
+                                  <span className="text-gray-400">Output:</span> <span className="text-gray-200">{example.output}</span>
+                              </div>
+                              {example.explanation && (
+                                  <div>
+                                      <span className="text-gray-400">Explanation:</span> <span className="text-gray-300">{example.explanation}</span>
+                                  </div>
+                              )}
+                          </div>
+                      </div>
+                  ))}
+
+                  {/* Constraints */}
+                  {problemData.constraints && (
+                      <div className="mb-6">
+                          <h3 className="text-sm font-bold text-white mb-2">Constraints:</h3>
+                          <ul className="list-disc list-inside space-y-1 text-gray-300 text-sm">
+                              {problemData.constraints.map((constraint, index) => (
+                                  <li key={index} className="font-mono bg-[#282828] px-2 py-1 rounded w-fit">{constraint}</li>
+                              ))}
+                          </ul>
+                      </div>
+                  )}
+
+                   {/* Companies */}
+                   {problemData.companies && (
+                       <div className="mt-8 pt-6 border-t border-[#2a2a2a]">
+                           <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                               <Building2 size={14} />
+                               <span>Seen in companies</span>
+                           </div>
+                           <div className="flex flex-wrap gap-2">
+                               {problemData.companies.map(company => (
+                                   <span key={company} className="px-2 py-1 bg-[#2a2a2a] text-gray-400 text-xs rounded border border-[#333]">
+                                       {company}
+                                   </span>
+                               ))}
+                           </div>
+                       </div>
+                   )}
+               </div>
+           ) : (
+               <div className="flex-1 flex flex-col items-center justify-center text-gray-500">
+                   <AlertCircle className="mb-2 text-red-400" size={24} />
+                   <p>Failed to load problem.</p>
+                   <button onClick={fetchRandomProblem} className="mt-2 text-blue-400 hover:underline">Try Again</button>
+               </div>
+           )}
         </div>
 
         {/* Right Panel - Editor & Tabs */}
@@ -264,10 +381,16 @@ Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
                   {activeTab === 'testcase' && (
                      <div className="space-y-4">
                         <div className="space-y-2">
-                           <p className="text-xs text-gray-500 font-medium uppercase">Input</p>
-                           <div className="bg-[#282828] p-3 rounded-md border border-[#333] text-sm font-mono text-gray-300">
-                              {DEFAULT_TEST_CASE.input}
-                           </div>
+                           {problemData?.examples && problemData.examples.length > 0 ? (
+                               <>
+                                   <p className="text-xs text-gray-500 font-medium uppercase">Input</p>
+                                   <div className="bg-[#282828] p-3 rounded-md border border-[#333] text-sm font-mono text-gray-300">
+                                      {problemData.examples[0].input}
+                                   </div>
+                               </>
+                           ) : (
+                               <p className="text-gray-500 italic text-sm">No test cases available.</p>
+                           )}
                         </div>
                      </div>
                   )}
