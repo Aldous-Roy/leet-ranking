@@ -8,6 +8,7 @@ import DashboardStats from "./component/DashboardStats";
 import UserProfile from "./component/UserProfile";
 import AITutor from "./component/AITutor";
 import Tournaments from "./component/Tournaments";
+import LeagueHeads from "./component/LeagueHeads";
 import NotFound from "./component/NotFound";
 import "./App.css";
 
@@ -16,6 +17,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -105,9 +107,11 @@ const App = () => {
       <Sidebar 
         isOpen={isSidebarOpen} 
         onClose={() => setIsSidebarOpen(false)} 
+        isCollapsed={isSidebarCollapsed}
+        toggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
       />
       
-      <main className="flex-1 md:ml-64 relative z-10 h-screen overflow-y-auto custom-scrollbar">
+      <main className={`flex-1 relative z-10 h-screen overflow-y-auto custom-scrollbar transition-all duration-300 ${isSidebarCollapsed ? 'md:ml-20' : 'md:ml-64'}`}>
         {/* Mobile Header */}
         <div className="md:hidden p-4 flex items-center justify-between border-b border-slate-800 bg-slate-900 sticky top-0 z-20">
            <span className="font-bold text-lg">LeetRank</span>
@@ -136,6 +140,7 @@ const App = () => {
             <Route path="/user/:username" element={<UserProfile />} />
             <Route path="/dsa-tutor" element={<AITutor />} />
             <Route path="/tournaments" element={<Tournaments />} />
+            <Route path="/league-heads" element={<LeagueHeads />} />
             {/* Fallback */}
             <Route path="*" element={<NotFound />} />
           </Routes>
