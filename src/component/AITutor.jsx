@@ -29,7 +29,7 @@ const AITutor = () => {
 
       // Step 2: Send to AI Tutor
       setStep('analyzing');
-      const tutorResponse = await axios.post('https://leetcode-ai-server.onrender.com/api/dsa-tutor', profileData);
+      const tutorResponse = await axios.post('https://leetcode-ai-server.onrender.com/api/tutor', profileData);
       
       // Combine data for display
       setData({
