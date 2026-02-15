@@ -200,11 +200,11 @@ const Tournaments = () => {
                 {loadingProblem ? <RefreshCw size={14} className="animate-spin" /> : <Shuffle size={14} />}
                 <span>Next</span>
             </button>
-            <div className="h-4 w-[1px] bg-[#333] mx-1"></div>
+            <div className="hidden lg:block h-4 w-[1px] bg-[#333] mx-1"></div>
             <button 
                 onClick={handleRunCode}
                 disabled={loadingProblem || isRunning || isSubmitting}
-                className="flex items-center gap-2 px-3 py-1.5 rounded bg-[#2a2a2a] text-gray-300 hover:bg-[#333] transition-colors text-sm"
+                className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded bg-[#2a2a2a] text-gray-300 hover:bg-[#333] transition-colors text-sm"
             >
                 {isRunning ? <RefreshCw size={14} className="animate-spin" /> : <Play size={14} />}
                 <span>Run</span>
@@ -212,7 +212,7 @@ const Tournaments = () => {
             <button 
                 onClick={handleSubmitCode}
                 disabled={loadingProblem || isRunning || isSubmitting}
-                className="flex items-center gap-2 px-3 py-1.5 rounded bg-green-700/80 text-green-100 hover:bg-green-600 transition-colors text-sm"
+                className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded bg-green-700/80 text-green-100 hover:bg-green-600 transition-colors text-sm"
             >
                 {isSubmitting ? <RefreshCw size={14} className="animate-spin" /> : <Send size={14} />}
                 <span>Submit</span>
@@ -223,7 +223,7 @@ const Tournaments = () => {
       {/* Main Content - Split Layout */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Panel - Description */}
-        <div className="w-1/2 border-r border-[#2a2a2a] flex flex-col min-w-[300px]">
+        <div className="w-full lg:w-1/2 border-r border-[#2a2a2a] flex flex-col min-w-[300px]">
            <div className="bg-[#1a1a1a] border-b border-[#2a2a2a] px-4 py-2 flex items-center gap-2 text-sm text-white font-medium sticky top-0 z-10">
               <FileText size={14} className="text-blue-400" />
               Description
@@ -319,7 +319,7 @@ const Tournaments = () => {
         </div>
 
         {/* Right Panel - Editor & Tabs */}
-        <div className="w-1/2 flex flex-col min-w-[300px]">
+        <div className="hidden lg:flex lg:w-1/2 flex-col min-w-[300px]">
            {/* Top: Editor */}
            <div className="flex-1 flex flex-col min-h-0 border-b border-[#2a2a2a]">
               <div className="bg-[#1a1a1a] border-b border-[#2a2a2a] px-4 py-2 flex items-center justify-between h-10 shrink-0">
