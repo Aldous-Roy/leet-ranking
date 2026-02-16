@@ -4,6 +4,8 @@ import remarkGfm from 'remark-gfm';
 import { Bot, AlertCircle, RefreshCw, ChevronRight, CheckCircle2, Target, Trophy, Clock, Brain, User, Search } from 'lucide-react';
 import axios from 'axios';
 import { usernames, userNamesMap } from '../data/sampleData';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import TutorPDFDocument from './TutorPDFDocument';
 
 const AITutor = () => {
   const [selectedUser, setSelectedUser] = useState(usernames[0]);
@@ -169,10 +171,21 @@ const AITutor = () => {
 
             {/* Tutor Content */}
             <div className="bg-slate-800/40 border border-slate-700/50 rounded-2xl p-6 md:p-8">
-                <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                    <Brain className="text-indigo-400" />
-                    Detailed Analysis & Roadmap for {userNamesMap[selectedUser] || selectedUser}
-                </h2>
+                <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                        <Brain className="text-indigo-400" />
+                        Detailed Analysis & Roadmap for {userNamesMap[selectedUser] || selectedUser}
+                    </h2>
+                    <PDFDownloadLink
+                        document={<TutorPDFDocument data={data} selectedUser={selectedUser} userNamesMap={userNamesMap} />}
+                        fileName={`LeetCode_Tutor_Report_${selectedUser}.pdf`}
+                        className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                    >
+                        {({ blob, url, loading, error }) =>
+                            loading ? 'Preparing PDF...' : 'Download Report'
+                        }
+                    </PDFDownloadLink>
+                </div>
                 <div className="prose prose-invert max-w-none prose-headings:text-white prose-p:text-slate-300 prose-li:text-slate-300 prose-strong:text-indigo-300">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {data.tutorReply}
