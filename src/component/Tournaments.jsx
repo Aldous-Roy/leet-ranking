@@ -15,6 +15,81 @@ const Tournaments = () => {
     java: `// Write your solution here\nclass Main {\n    public static void main(String[] args) {\n        System.out.println("Hello World!");\n    }\n}\n\nclass Solution {\n    public int[] solution(int[] nums, int target) {\n        return new int[]{};\n    }\n}`
   };
 
+  // Mock Solutions Data
+  const MOCK_SOLUTIONS = [
+    {
+      id: 1,
+      title: "Optimized O(n) Solution using HashMap",
+      author: "CodeMaster99",
+      language: "java",
+      timeComplexity: "O(n)",
+      spaceComplexity: "O(n)",
+      code: `class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            if (map.containsKey(complement)) {
+                return new int[] { map.get(complement), i };
+            }
+            map.put(nums[i], i);
+        }
+        return new int[] {};
+    }
+}`
+    },
+    {
+      id: 2,
+      title: "Python 3 - One Pass Approach",
+      author: "PyDev_2024",
+      language: "python",
+      timeComplexity: "O(n)",
+      spaceComplexity: "O(n)",
+      code: `class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        prevMap = {}  # val : index
+        for i, n in enumerate(nums):
+            diff = target - n
+            if diff in prevMap:
+                return [prevMap[diff], i]
+            prevMap[n] = i
+        return`
+    },
+    {
+      id: 3,
+      title: "C++ Two Pointers (if sorted)",
+      author: "cpp_guru",
+      language: "cpp",
+      timeComplexity: "O(n log n)",
+      spaceComplexity: "O(1)",
+      code: `class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        // Note: This approach requires sorting, which changes indices.
+        // It's just a sample mock solution for demonstration.
+        vector<pair<int, int>> indexedNums;
+        for (int i = 0; i < nums.size(); ++i) {
+            indexedNums.push_back({nums[i], i});
+        }
+        sort(indexedNums.begin(), indexedNums.end());
+        
+        int left = 0, right = nums.size() - 1;
+        while (left < right) {
+            int sum = indexedNums[left].first + indexedNums[right].first;
+            if (sum == target) {
+                return {indexedNums[left].second, indexedNums[right].second};
+            } else if (sum < target) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return {};
+    }
+};`
+    }
+  ];
+
   const [code, setCode] = useState(LANGUAGE_TEMPLATES.java);
   const [output, setOutput] = useState(null);
   const [submissionResult, setSubmissionResult] = useState(null);
@@ -24,6 +99,8 @@ const Tournaments = () => {
   const [error, setError] = useState(null);
   const [playerName, setPlayerName] = useState(() => localStorage.getItem('tournaments_player_name') || '');
   const [activeTab, setActiveTab] = useState('testcase'); // 'testcase' | 'result'
+  const [activeLeftTab, setActiveLeftTab] = useState('description'); // 'description' | 'solutions'
+  const [expandedSolutionId, setExpandedSolutionId] = useState(null);
   
   // New state for random problem
   const [problemData, setProblemData] = useState(null);
@@ -224,12 +301,33 @@ const Tournaments = () => {
       <div className="flex-1 flex overflow-hidden">
         {/* Left Panel - Description */}
         <div className="w-full lg:w-1/2 border-r border-[#2a2a2a] flex flex-col min-w-[300px]">
-           <div className="bg-[#1a1a1a] border-b border-[#2a2a2a] px-4 py-2 flex items-center gap-2 text-sm text-white font-medium sticky top-0 z-10">
-              <FileText size={14} className="text-blue-400" />
-              Description
-           </div>
-           
-           {loadingProblem ? (
+            <div className="bg-[#1a1a1a] border-b border-[#2a2a2a] flex items-center sticky top-0 z-10">
+               <button 
+                  onClick={() => setActiveLeftTab('description')}
+                  className={`px-4 py-2 text-sm flex items-center gap-2 border-r border-[#2a2a2a] transition-colors ${
+                     activeLeftTab === 'description' 
+                     ? 'bg-[#1a1a1a] text-white border-t-2 border-t-transparent' 
+                     : 'text-gray-500 hover:text-gray-300 bg-[#1e1e1e]'
+                  }`}
+               >
+                  <FileText size={14} className={activeLeftTab === 'description' ? "text-blue-400" : ""} />
+                  Description
+               </button>
+               <button 
+                  onClick={() => setActiveLeftTab('solutions')}
+                  className={`px-4 py-2 text-sm flex items-center gap-2 border-r border-[#2a2a2a] transition-colors ${
+                     activeLeftTab === 'solutions' 
+                     ? 'bg-[#1a1a1a] text-white border-t-2 border-t-transparent' 
+                     : 'text-gray-500 hover:text-gray-300 bg-[#1e1e1e]'
+                  }`}
+               >
+                  <Code2 size={14} className={activeLeftTab === 'solutions' ? "text-green-400" : ""} />
+                  Solutions
+               </button>
+            </div>
+            
+            {activeLeftTab === 'description' ? (
+               loadingProblem ? (
                <div className="flex-1 flex flex-col items-center justify-center text-gray-500">
                    <RefreshCw className="animate-spin mb-2" size={24} />
                    <p>Fetching random problem...</p>
@@ -315,6 +413,55 @@ const Tournaments = () => {
                    <p>Failed to load problem.</p>
                    <button onClick={fetchRandomProblem} className="mt-2 text-blue-400 hover:underline">Try Again</button>
                </div>
+           )) : (
+              <div className="flex-1 overflow-y-auto custom-scrollbar p-6">
+                 <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <CheckCircle2 size={18} className="text-green-500"/>
+                    Community Solutions
+                 </h2>
+                 <div className="space-y-4">
+                    {MOCK_SOLUTIONS.map(solution => (
+                       <div key={solution.id} className="bg-[#282828] border border-[#333] rounded-lg overflow-hidden">
+                          <div 
+                             className="p-4 cursor-pointer hover:bg-[#333] transition-colors flex items-center justify-between"
+                             onClick={() => setExpandedSolutionId(expandedSolutionId === solution.id ? null : solution.id)}
+                          >
+                             <div className="flex flex-col gap-1">
+                                <h3 className="text-sm font-bold text-gray-200">{solution.title}</h3>
+                                <div className="flex items-center gap-3 text-xs text-gray-400">
+                                   <span className="flex items-center gap-1">
+                                      <User size={12}/> {solution.author}
+                                   </span>
+                                   <span className="flex items-center gap-1">
+                                      <Code2 size={12}/> {solution.language}
+                                   </span>
+                                </div>
+                             </div>
+                             <div className="flex items-center gap-3">
+                                <div className="flex flex-col items-end gap-1 text-xs">
+                                   <span className="text-green-400 bg-green-900/20 px-1.5 py-0.5 rounded">{solution.timeComplexity}</span>
+                                   <span className="text-blue-400 bg-blue-900/20 px-1.5 py-0.5 rounded">{solution.spaceComplexity}</span>
+                                </div>
+                                <ChevronDown 
+                                   size={16} 
+                                   className={`text-gray-500 transition-transform ${expandedSolutionId === solution.id ? 'rotate-180' : ''}`} 
+                                />
+                             </div>
+                          </div>
+                          
+                          {expandedSolutionId === solution.id && (
+                             <div className="border-t border-[#333] bg-[#1a1a1a] p-4">
+                                <div className="relative">
+                                   <pre className="text-xs font-mono text-gray-300 overflow-x-auto whitespace-pre-wrap">
+                                      {solution.code}
+                                   </pre>
+                                </div>
+                             </div>
+                          )}
+                       </div>
+                    ))}
+                 </div>
+              </div>
            )}
         </div>
 
