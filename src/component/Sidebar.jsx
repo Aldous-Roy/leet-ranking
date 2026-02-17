@@ -11,8 +11,8 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, toggleCollapse }) => {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/' },
     { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/leaderboard' },
-    { id: 'tournaments', label: 'Tournaments', icon: Swords, path: '/tournaments' },
-    { id: 'league-heads', label: 'League Heads', icon: Crown, path: '/league-heads' },
+    // { id: 'tournaments', label: 'Tournaments', icon: Swords, path: '/tournaments' },
+    // { id: 'league-heads', label: 'League Heads', icon: Crown, path: '/league-heads' },
     { id: 'ai-tutor', label: 'AI Tutor', icon: Brain, path: '/dsa-tutor' },
   ];
 
