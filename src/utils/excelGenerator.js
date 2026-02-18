@@ -45,5 +45,5 @@ export const exportToExcel = (users) => {
   XLSX.utils.book_append_sheet(workbook, worksheet, "Student Performance");
 
   // Generate buffer and trigger download
-  XLSX.writeFile(workbook, "LeetRanking_Report.xlsx");
+  XLSX.writeFile(workbook, "LeetCode_TEH_Report.xlsx");
 };

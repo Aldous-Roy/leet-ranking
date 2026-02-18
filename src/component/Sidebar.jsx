@@ -11,14 +11,14 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, toggleCollapse }) => {
   const menuItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/' },
     { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, path: '/leaderboard' },
-    { id: 'tournaments', label: 'Tournaments', icon: Swords, path: '/tournaments' },
-    { id: 'league-heads', label: 'League Heads', icon: Crown, path: '/league-heads' },
+    // { id: 'tournaments', label: 'Tournaments', icon: Swords, path: '/tournaments' },
+    // { id: 'league-heads', label: 'League Heads', icon: Crown, path: '/league-heads' },
     { id: 'ai-tutor', label: 'AI Tutor', icon: Brain, path: '/dsa-tutor' },
   ];
 
   const bottomItems = [
     { id: 'leetcoder', label: 'LeetCode', icon: GraduationCap, url: 'https://leetcode.com' },
-    { id: 'discord', label: 'Join Discord', icon: MessageCircle, url: 'https://discord.gg/ejCkm4RF' },
+    // { id: 'discord', label: 'Join Discord', icon: MessageCircle, url: 'https://discord.gg/ejCkm4RF' },
   ];
 
   return (
