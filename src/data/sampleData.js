@@ -56,7 +56,7 @@ export const usernames = [
     "Bhavadharani_2804",
     "Divyadarshini_",
     "Shreya0503",
-    "KoushiCodey"
+    "koushilearns"
   ];
   
   export const userNamesMap = {
@@ -117,6 +117,6 @@ export const usernames = [
     "Bhavadharani_2804":"Bhavadharani",
     "Divyadarshini_":"Divyadarshini",
     "Shreya0503":"Shreya",
-    "KoushiCodey":"Koushik Babu",
+    "koushilearns":"Koushik Babu",
     
   };
