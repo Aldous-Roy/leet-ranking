@@ -79,11 +79,13 @@ export const usernames = [
   "gokulcs-nkl",
   "priya0572",
   "suwethakathir",
-  "monicka_sri_s"
+  "monicka_sri_s",
+  "mohameedaasheeq",
 ];
 
 export const userNamesMap = {
   "mohammeddaiyaan2005": "R MOHAMMED DAIYAAN",
+  "mohameedaasheeq": "S. MOHAMEED AASHEEQ",
   "dhananjaysaikumar": "DHANANJAY SAI KUMAR K",
   "iBz8r2bans": "SELVA VIGNESH S M",
   "HariS5": "HARI S",
